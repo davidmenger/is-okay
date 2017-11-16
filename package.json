@@ -1,8 +1,8 @@
 {
   "name": "is-okay",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Simple and fast type validator",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "test": "npm run test:lint && npm run test:coverage && npm run test:coverage:threshold",
     "test:coverage": "istanbul cover _mocha -- --opts ./mocha.opts ./test",
