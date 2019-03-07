@@ -130,6 +130,24 @@ describe('Rule', function () {
         assert.strictEqual(r._validate(1), 1);
     });
 
+    it('should filter arrays', function () {
+        const r = new Rule(PATH, false, true);
+
+        r.array();
+
+        assert.throws(() => r._validate('false'));
+        assert.throws(() => r._validate('true'));
+        assert.throws(() => r._validate(true));
+        assert.throws(() => r._validate(false));
+        assert.throws(() => r._validate(''), '');
+        assert.throws(() => r._validate('text'));
+
+        assert.strictEqual(r._validate(null), null);
+        assert.strictEqual(r._validate(undefined), null);
+        assert.deepStrictEqual(r._validate([]), []);
+        assert.deepStrictEqual(r._validate(['1']), ['1']);
+    });
+
     it('should filter booleans', function () {
         const r = new Rule(PATH, false, true);
 

@@ -16,31 +16,69 @@ class Rule {
         this._defaultValue = nullable ? null : undefined;
     }
 
+    /**
+     * Sets filter
+     *
+     * @returns {this}
+     */
     string () {
         this._type = 'string';
         return this;
     }
 
+    /**
+     * Sets filter
+     *
+     * @returns {this}
+     */
     number () {
         this._type = 'number';
         return this;
     }
 
+    /**
+     * Sets filter
+     *
+     * @returns {this}
+     */
     boolean () {
         this._type = 'boolean';
         return this;
     }
 
+    /**
+     * Sets default value
+     *
+     * @param {*} defaultValue
+     * @returns {this}
+     */
     default (defaultValue) {
         this._defaultValue = defaultValue;
         return this;
     }
 
+    array () {
+        this._type = 'array';
+        return this;
+    }
+
+    /**
+     * Adds validator
+     *
+     * @param {string} message
+     * @param {{value:any,key:string}:void} fn
+     * @returns {this}
+     */
     is (message, fn) {
         this._is.push({ message, fn });
         return this;
     }
 
+    /**
+     * Value should not be empty (not falsey)
+     *
+     * @returns {this}
+     */
     notEmpty () {
         this._notEmpty = true;
         return this;
@@ -62,6 +100,14 @@ class Rule {
         }
 
         switch (this._type) {
+            case 'array':
+                if (!Array.isArray(value)) {
+                    throw new ValidationError(`${key} should be an array`);
+                }
+                if (this._notEmpty && value.length === 0) {
+                    throw new ValidationError(`${key} should not be an empty array`);
+                }
+                return value;
             case 'string':
                 if (typeof value !== 'string') {
                     return `${value}`;

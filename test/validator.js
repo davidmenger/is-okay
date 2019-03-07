@@ -4,7 +4,7 @@
 'use strict';
 
 const assert = require('assert');
-const Validator = require('../src/Validator');
+const { Validator } = require('../main');
 
 describe('Validator', function () {
 
@@ -12,16 +12,19 @@ describe('Validator', function () {
         const v = new Validator();
 
         v.optional('array[].opt').default(1);
+        v.required('strings').array();
 
         assert.deepEqual(v.okay({
             notHere: 2,
             array: [
                 { notHere: 3 }
-            ]
+            ],
+            strings: ['a']
         }), {
             array: [
                 { opt: 1 }
-            ]
+            ],
+            strings: ['a']
         });
     });
 
