@@ -57,17 +57,18 @@ class Validator {
      *
      * @template T
      * @param {T:Object} data
+     * @param {boolean} makeRootOptional - make all root attributes optional (usefull for updates)
      * @returns {T}
      * @throws {ValidationError}
      */
-    okay (data) {
+    okay (data, makeRootOptional = false) {
         const ret = {};
-        this.rules.forEach(rule => this._validateRule(rule, data, ret));
+        this.rules.forEach(rule => this._validateRule(rule, data, ret, makeRootOptional));
         return ret;
     }
 
-    _validateRule (rule, data, ret) {
-        traverse(rule._path, (value, key) => rule._validate(value, key), data, ret, '');
+    _validateRule (rule, data, ret, makeRootOptional) {
+        traverse(rule._path, (value, key) => rule._validate(value, key, makeRootOptional), data, ret, '');
     }
 }
 

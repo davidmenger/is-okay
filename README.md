@@ -47,6 +47,25 @@ assert.deepEqual(v.okay({
 
 ```
 
+## Reuse the validator for MongoDB updates
+
+All root keys of input will be **treated as optional**.
+
+```javascript
+const isOkay = require('is-okay');
+
+const v = isOkay();
+
+v.nullable('opt');
+v.required('opt.req').string();
+
+v.required('id');
+
+const input = {};
+
+assert.deepEqual(v.okay(input, true), {});
+```
+
 ## Objects in arrays
 
 ```javascript

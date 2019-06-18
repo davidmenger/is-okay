@@ -8,6 +8,33 @@ const { Validator } = require('../main');
 
 describe('Validator', function () {
 
+    it('is able make validation usefull for updates', () => {
+        const v = new Validator();
+
+        v.nullable('nullable');
+        v.required('nullable.req').string();
+
+        v.required('root')
+            .string();
+
+        v.nullable('rootnull');
+
+        assert.deepEqual(v.okay({
+            notHere: 2
+        }, true), {});
+
+        assert.deepEqual(v.okay({
+            rootnull: null,
+            nullable: null
+        }, true), { nullable: null, rootnull: null });
+
+        assert.throws(() => {
+            v.okay({
+                root: null
+            }, true);
+        });
+    });
+
     it('has optional nested values', () => {
         const v = new Validator();
 

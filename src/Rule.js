@@ -95,8 +95,16 @@ class Rule {
         return this;
     }
 
-    _filter (value, key) {
-        if (value === undefined && !this._required) {
+    _filter (value, key, makeRootOptional) {
+        const isOptionalRoot = makeRootOptional && !this._path.match(/[.[]/);
+        const required = this._required && !isOptionalRoot;
+
+        if (value === undefined && isOptionalRoot && this._defaultValue === null) {
+            // optional value does not override the key
+            return undefined;
+        }
+
+        if (value === undefined && !required) {
             return this._defaultValue;
         }
 
@@ -148,7 +156,7 @@ class Rule {
         }
     }
 
-    _validate (value, key) {
+    _validate (value, key, makeRootOptional) {
         // skip validation of missing required values
         if (key !== this._path
             && this._required
@@ -158,8 +166,7 @@ class Rule {
         }
 
         // presence
-        const val = this._filter(value, key);
-
+        const val = this._filter(value, key, makeRootOptional);
 
         if (val === undefined) {
             return undefined;
