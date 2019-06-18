@@ -1,4 +1,53 @@
-# OsOkay Validator
+# IsOkay Validator
+
+## Simple
+
+```javascript
+const isOkay = require('is-okay');
+
+const v = isOkay();
+
+v.required('botId')
+    .string()
+    .is('not a reseved word [app]', b => b !== 'app')
+    .is('max 47 chars long', b => b.length <= 47);
+
+v.required('wingbotToken')
+    .string();
+
+v.optional('tier')
+    .default('free')
+    .is('one of allowed values', t => ['free', 'staging', 'production'].includes(t));
+
+const data = v.okay(inputData);
+
+```
+
+## Validates nested objects
+
+```javascript
+const isOkay = require('is-okay');
+
+const v = isOkay();
+
+v.nullable('opt');
+v.required('opt.req').string();
+
+assert.deepEqual(v.okay({}), { opt: null });
+
+assert.throws(() => {
+    v.okay({
+        opt: {}
+    });
+});
+
+assert.deepEqual(v.okay({
+    opt: { req: 'a' }
+}), { opt: { req: 'a' } });
+
+```
+
+## Objects in arrays
 
 ```javascript
 const isOkay = require('is-okay');

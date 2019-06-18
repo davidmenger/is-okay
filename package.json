@@ -1,11 +1,11 @@
 {
   "name": "is-okay",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "Simple and fast type validator",
   "main": "main.js",
   "scripts": {
     "test": "npm run test:lint && npm run test:coverage && npm run test:coverage:threshold",
-    "test:coverage": "istanbul cover _mocha -- --opts ./mocha.opts ./test",
+    "test:coverage": "istanbul cover _mocha -- ./test",
     "test:coverage:threshold": "istanbul check --branches 80 --functions 80 --statements 80 --lines 80  ./coverage/coverage.json",
     "test:unit": "mocha --opts ./mocha.opts ./test",
     "test:lint": "eslint --ext .js src *.js test"
@@ -20,15 +20,15 @@
     "api"
   ],
   "devDependencies": {
-    "eslint": "^4.10.0",
-    "eslint-config-airbnb": "^16.1.0",
-    "eslint-mocha": "^0.3.0",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-jsdoc": "^3.1.3",
-    "eslint-plugin-jsx-a11y": "^6.0.2",
-    "eslint-plugin-mocha": "^4.11.0",
-    "eslint-plugin-react": "^7.4.0",
-    "mocha": "^4.0.1",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-mocha": "^0.7.2",
+    "eslint-plugin-import": "^2.17.3",
+    "eslint-plugin-jsdoc": "^8.1.0",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-mocha": "^5.3.0",
+    "eslint-plugin-react": "^7.13.0",
+    "mocha": "^6.1.4",
     "mocha-istanbul": "^0.3.0"
   },
   "author": "David Menger",

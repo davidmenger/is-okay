@@ -55,7 +55,9 @@ function traverse (path, fn, dataObject, obj, stackPath) {
             });
         }
         return;
-    } else if (typeof dataObject[key] !== 'object' || !nextPath) {
+    }
+
+    if (typeof dataObject[key] !== 'object' || !nextPath) {
         if (nextPath && nextPath.match(/\[]/)) {
             return;
         }
@@ -69,8 +71,15 @@ function traverse (path, fn, dataObject, obj, stackPath) {
         appendInObject(obj, key, res, nextPath);
         return;
     }
+
     if (typeof obj[key] === 'undefined') {
         Object.assign(obj, { [key]: {} });
+    } else if (nextPath && obj[key] === null) {
+        const res = fn(dataObject[key], `${stackPath}${key}`);
+        if (res !== undefined) {
+            Object.assign(obj, { [key]: res });
+        }
+        return;
     }
     const currentPath = `${stackPath}${key}.`;
     traverse(nextPath, fn, dataObject[key], obj[key], currentPath);

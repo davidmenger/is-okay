@@ -13,17 +13,17 @@ describe('Rule', function () {
     it('should validate presence of required value', function () {
         const r = new Rule(PATH, true, false);
 
-        assert.throws(() => r._validate(undefined));
-        assert.throws(() => r._validate(null));
+        assert.throws(() => r._validate(undefined, PATH));
+        assert.throws(() => r._validate(null, PATH));
 
-        assert.strictEqual(r._validate(false), false);
-        assert.strictEqual(r._validate(true), true);
-        assert.strictEqual(r._validate('false'), 'false');
-        assert.strictEqual(r._validate('true'), 'true');
-        assert.strictEqual(r._validate(0), 0);
-        assert.strictEqual(r._validate(1), 1);
-        assert.strictEqual(r._validate(''), '');
-        assert.strictEqual(r._validate('text'), 'text');
+        assert.strictEqual(r._validate(false, PATH), false);
+        assert.strictEqual(r._validate(true, PATH), true);
+        assert.strictEqual(r._validate('false', PATH), 'false');
+        assert.strictEqual(r._validate('true', PATH), 'true');
+        assert.strictEqual(r._validate(0, PATH), 0);
+        assert.strictEqual(r._validate(1, PATH), 1);
+        assert.strictEqual(r._validate('', PATH), '');
+        assert.strictEqual(r._validate('text', PATH), 'text');
     });
 
     it('should throw out empty values when set', function () {
@@ -31,33 +31,33 @@ describe('Rule', function () {
 
         r.notEmpty();
 
-        assert.throws(() => r._validate(undefined));
-        assert.throws(() => r._validate(null));
-        assert.throws(() => r._validate(''));
-        assert.throws(() => r._validate(0));
-        assert.throws(() => r._validate(false));
+        assert.throws(() => r._validate(undefined, PATH));
+        assert.throws(() => r._validate(null, PATH));
+        assert.throws(() => r._validate('', PATH));
+        assert.throws(() => r._validate(0, PATH));
+        assert.throws(() => r._validate(false, PATH));
 
-        assert.strictEqual(r._validate(true), true);
-        assert.strictEqual(r._validate('false'), 'false');
-        assert.strictEqual(r._validate('true'), 'true');
-        assert.strictEqual(r._validate(1), 1);
-        assert.strictEqual(r._validate('text'), 'text');
+        assert.strictEqual(r._validate(true, PATH), true);
+        assert.strictEqual(r._validate('false', PATH), 'false');
+        assert.strictEqual(r._validate('true', PATH), 'true');
+        assert.strictEqual(r._validate(1, PATH), 1);
+        assert.strictEqual(r._validate('text', PATH), 'text');
     });
 
     it('should validate presence of nullable value', function () {
         const r = new Rule(PATH, true, true);
 
-        assert.throws(() => r._validate(undefined));
+        assert.throws(() => r._validate(undefined, PATH));
 
-        assert.strictEqual(r._validate(null), null);
-        assert.strictEqual(r._validate(false), false);
-        assert.strictEqual(r._validate(true), true);
-        assert.strictEqual(r._validate('false'), 'false');
-        assert.strictEqual(r._validate('true'), 'true');
-        assert.strictEqual(r._validate(0), 0);
-        assert.strictEqual(r._validate(1), 1);
-        assert.strictEqual(r._validate(''), '');
-        assert.strictEqual(r._validate('text'), 'text');
+        assert.strictEqual(r._validate(null, PATH), null);
+        assert.strictEqual(r._validate(false, PATH), false);
+        assert.strictEqual(r._validate(true, PATH), true);
+        assert.strictEqual(r._validate('false', PATH), 'false');
+        assert.strictEqual(r._validate('true', PATH), 'true');
+        assert.strictEqual(r._validate(0, PATH), 0);
+        assert.strictEqual(r._validate(1, PATH), 1);
+        assert.strictEqual(r._validate('', PATH), '');
+        assert.strictEqual(r._validate('text', PATH), 'text');
     });
 
     it('should validate presence of optional value', function () {

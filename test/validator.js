@@ -8,6 +8,54 @@ const { Validator } = require('../main');
 
 describe('Validator', function () {
 
+    it('has optional nested values', () => {
+        const v = new Validator();
+
+        v.optional('opt');
+        v.required('opt.req').string();
+
+        assert.deepEqual(v.okay({
+            notHere: 2
+        }), {});
+
+        assert.throws(() => {
+            v.okay({
+                opt: {}
+            });
+        });
+
+        assert.deepEqual(v.okay({
+            notHere: 2,
+            opt: { req: 'a' }
+        }), { opt: { req: 'a' } });
+    });
+
+    it('has nullable nested values', () => {
+        const v = new Validator();
+
+        v.nullable('opt');
+        v.required('opt.req').string();
+
+        assert.deepEqual(v.okay({
+            notHere: 2
+        }), { opt: null });
+
+        assert.deepEqual(v.okay({
+            opt: null
+        }), { opt: null });
+
+        assert.throws(() => {
+            v.okay({
+                opt: {}
+            });
+        });
+
+        assert.deepEqual(v.okay({
+            notHere: 2,
+            opt: { req: 'a' }
+        }), { opt: { req: 'a' } });
+    });
+
     it('should add missing prop to array', function () {
         const v = new Validator();
 

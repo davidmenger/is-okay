@@ -87,9 +87,13 @@ class Rule {
     _filter (value, key) {
         if (value === undefined && !this._required) {
             return this._defaultValue;
-        } else if (value === null && this._nullable) {
+        }
+
+        if (value === null && this._nullable) {
             return null;
-        } else if (value === null) {
+        }
+
+        if (value === null) {
             throw new ValidationError(`${key} should not be null`);
         } else if (value === undefined) {
             throw new ValidationError(`${key} should not be undefined`);
@@ -134,12 +138,23 @@ class Rule {
     }
 
     _validate (value, key) {
+        // skip validation of missing required values
+        if (key !== this._path
+            && this._required
+            && (value === undefined || value === null)) {
+
+            return value;
+        }
+
         // presence
         const val = this._filter(value, key);
 
+
         if (val === undefined) {
             return undefined;
-        } else if (val === null) {
+        }
+
+        if (val === null) {
             return null;
         }
 
