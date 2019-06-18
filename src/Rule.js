@@ -5,6 +5,17 @@
 
 const ValidationError = require('./ValidationError');
 
+/**
+ * Validator callback
+ *
+ * @callback validator
+ * @param {*} value - found value
+ * @param {*} key - a key, where the value was found
+ */
+
+/**
+ * @class {Rule} Validation configurator
+ */
 class Rule {
     constructor (path, required = false, nullable = false) {
         this._path = path;
@@ -66,7 +77,7 @@ class Rule {
      * Adds validator
      *
      * @param {string} message
-     * @param {{value:any,key:string}:void} fn
+     * @param {validator} fn
      * @returns {this}
      */
     is (message, fn) {
