@@ -96,6 +96,9 @@ describe('Rule', function () {
 
         r.string();
 
+        assert.throws(() => r._validate([]));
+        assert.throws(() => r._validate({}));
+
         assert.strictEqual(r._validate(null), null);
         assert.strictEqual(r._validate(undefined), null);
         assert.strictEqual(r._validate(false), 'false');
@@ -121,6 +124,8 @@ describe('Rule', function () {
         assert.throws(() => r._validate(false));
         assert.throws(() => r._validate(''), '');
         assert.throws(() => r._validate('text'));
+        assert.throws(() => r._validate([]));
+        assert.throws(() => r._validate({}));
 
         assert.strictEqual(r._validate(null), null);
         assert.strictEqual(r._validate(undefined), null);
@@ -155,6 +160,8 @@ describe('Rule', function () {
 
         assert.strictEqual(r._validate(null), null);
         assert.strictEqual(r._validate(undefined), null);
+        assert.throws(() => r._validate([]));
+        assert.throws(() => r._validate({}));
 
         assert.strictEqual(r._validate(false), false);
         assert.strictEqual(r._validate(true), true);

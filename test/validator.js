@@ -103,6 +103,19 @@ describe('Validator', function () {
         });
     });
 
+    it('validates required field in array', () => {
+        const v = new Validator();
+
+        v.required('array[].required')
+            .string();
+
+        assert.throws(() => {
+            v.okay({
+                array: [{ any: 1 }]
+            });
+        });
+    });
+
     it('should construct new object, when props are missing', function () {
         const v = new Validator();
 
@@ -131,6 +144,76 @@ describe('Validator', function () {
                 { required: 'abv', opt: 1, value: null },
                 { required: 'abc', opt: 2, value: null }
             ]
+        });
+    });
+
+    it('makes possible to validate array length', () => {
+        const v = new Validator();
+
+        v.required('array')
+            .array()
+            .is('longer than 1 field', a => a.length > 1);
+
+        v.required('array[]')
+            .string();
+
+        assert.throws(() => {
+            v.okay({
+                array: ['str']
+            });
+        });
+
+        assert.throws(() => {
+            v.okay({
+                array: ['str', {}]
+            });
+        });
+
+        assert.deepEqual(v.okay({
+            array: ['a', 2]
+        }), {
+            array: ['a', '2']
+        });
+
+        assert.deepEqual(v.okay({
+            array: ['a', 'b']
+        }), {
+            array: ['a', 'b']
+        });
+    });
+
+    it('makes possible to validate array length', () => {
+        const v = new Validator();
+
+        v.required('array')
+            .array()
+            .is('longer than 1 field', a => a.length > 1);
+
+        v.required('array[]')
+            .string();
+
+        assert.throws(() => {
+            v.okay({
+                array: ['str']
+            });
+        });
+
+        assert.throws(() => {
+            v.okay({
+                array: ['str', {}]
+            });
+        });
+
+        assert.deepEqual(v.okay({
+            array: ['a', 2]
+        }), {
+            array: ['a', '2']
+        });
+
+        assert.deepEqual(v.okay({
+            array: ['a', 'b']
+        }), {
+            array: ['a', 'b']
         });
     });
 

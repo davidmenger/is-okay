@@ -132,12 +132,18 @@ class Rule {
                 }
                 return value;
             case 'string':
+                if (typeof value === 'object') {
+                    throw new ValidationError(`${key} should be a string`);
+                }
                 if (typeof value !== 'string') {
                     return `${value}`;
                 }
                 return value;
             case 'number': {
                 let val;
+                if (value && typeof value === 'object') {
+                    throw new ValidationError(`${key} should be a string`);
+                }
                 if (typeof val !== 'number') {
                     val = parseInt(value, 10);
                 }
@@ -147,6 +153,9 @@ class Rule {
                 return val;
             }
             case 'boolean':
+                if (value && typeof value === 'object') {
+                    throw new ValidationError(`${key} should be a boolean`);
+                }
                 if (value === 'false' || value === '0' || value === 0) {
                     return false;
                 }
@@ -158,7 +167,9 @@ class Rule {
 
     _validate (value, key, makeRootOptional) {
         // skip validation of missing required values
-        if (key !== this._path
+        const arrayNormalizedPath = key && key.replace(/\[[0-9]+\]/g, '[]');
+
+        if (arrayNormalizedPath !== this._path
             && this._required
             && (value === undefined || value === null)) {
 
